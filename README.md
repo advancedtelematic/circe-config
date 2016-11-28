@@ -1,6 +1,20 @@
 # circe-config #
 
-Welcome to circe-config!
+The library translates an AST of [Typesafe Config](https://github.com/typesafehub/config) into [circe's](https://circe.github.io/circe/) AST.
+
+## Usage
+
+Add dependency to a project:
+```
+resolvers += "ATS Releases" at "http://nexus.advancedtelematic.com:8081/content/repositories/releases"
+
+"com.advancedtelematic" %% "circe-config" % "0.0.1"
+```
+
+Add import:
+```scala
+import com.advancedtelematic.circe.config._
+```
 
 ## Contribution policy ##
 
