@@ -1,7 +1,7 @@
 import sbt._
 
 object Version {
-  val Scala          = "2.11.8"
+  val Scala          = "2.12.0"
   val circe          = "0.6.1"
   val discipline     = "0.7.2"
   val scalaCheck     = "0.13.4"

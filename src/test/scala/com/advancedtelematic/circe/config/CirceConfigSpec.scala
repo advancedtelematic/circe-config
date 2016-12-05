@@ -76,16 +76,15 @@ class CirceConfigSpec extends FlatSpec with Matchers with ConfigDecoders {
   }
 
   it should "decode duration" in {
-    import cats.syntax.either._
     val durations = json.hcursor.downField("durations")
-    durations.get[Duration]("second").map(_.toMillis) should equal(Right(1000L))
-    durations.get[Duration]("secondAsNumber").map(_.toMillis) should equal(Right(1000L))
-    durations.get[Seq[Duration]]("secondsList").map(_.map(_.toMillis)) should equal(
+    durations.get[Duration]("second").right.map(_.toMillis) should equal(Right(1000L))
+    durations.get[Duration]("secondAsNumber").right.map(_.toMillis) should equal(Right(1000L))
+    durations.get[Seq[Duration]]("secondsList").right.map(_.map(_.toMillis)) should equal(
       Right(Seq(1000L, 2000L, 3000L, 4000L)))
-    durations.get[Duration]("halfSecond").map(_.toMillis) should equal(Right(500L))
-    durations.get[Duration]("largeNanos").map(_.toNanos) should equal(Right(4878955355435272204L))
-    durations.get[Duration]("plusLargeNanos").map(_.toNanos) should equal(Right(4878955355435272204L))
-    durations.get[Duration]("minusLargeNanos").map(_.toNanos) should equal(Right(-4878955355435272204L))
+    durations.get[Duration]("halfSecond").right.map(_.toMillis) should equal(Right(500L))
+    durations.get[Duration]("largeNanos").right.map(_.toNanos) should equal(Right(4878955355435272204L))
+    durations.get[Duration]("plusLargeNanos").right.map(_.toNanos) should equal(Right(4878955355435272204L))
+    durations.get[Duration]("minusLargeNanos").right.map(_.toNanos) should equal(Right(-4878955355435272204L))
   }
 
   it should "decode memory size in bytes" in {

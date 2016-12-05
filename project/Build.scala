@@ -22,7 +22,7 @@ object Build extends AutoPlugin {
     Vector(
       // Compile settings
       scalaVersion := Version.Scala,
-      crossScalaVersions := Vector(scalaVersion.value),
+      crossScalaVersions := Vector(scalaVersion.value, "2.11.8"),
       scalacOptions ++= Vector(
         "-deprecation",
         "-encoding",
