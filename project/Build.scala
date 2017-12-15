@@ -17,30 +17,36 @@ object Build extends AutoPlugin {
 
   override def trigger = allRequirements
 
+  lazy val compilerOptions = Vector(
+    "-deprecation",
+    "-encoding",
+    "UTF-8", // yes, this is 2 args
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xlint:-missing-interpolator",
+    "-Yno-adapted-args",
+    "-Ywarn-dead-code",
+    "-Ywarn-numeric-widen",
+    "-Ywarn-value-discard",
+    "-Xfuture",
+    "-target:jvm-1.8"
+  )
+
   override def projectSettings =
 //    reformatOnCompileSettings ++
     Vector(
       // Compile settings
       scalaVersion := Version.Scala,
-      crossScalaVersions := Vector(scalaVersion.value, "2.11.8"),
-      scalacOptions ++= Vector(
-        "-deprecation",
-        "-encoding",
-        "UTF-8", // yes, this is 2 args
-        "-feature",
-        "-language:existentials",
-        "-language:higherKinds",
-        "-language:implicitConversions",
-        "-unchecked",
-        "-Xfatal-warnings",
-        "-Xlint:-missing-interpolator",
-        "-Yno-adapted-args",
-        "-Ywarn-dead-code",
-        "-Ywarn-numeric-widen",
-        "-Ywarn-value-discard",
-        "-Xfuture",
-        "-Ywarn-unused-import",
-        "-target:jvm-1.8"
+      crossScalaVersions := Vector(scalaVersion.value, "2.11.11"),
+      scalacOptions ++= compilerOptions ++ (
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, p)) if p == 11 => Seq("-Ywarn-unused-import")
+          case _                       => Nil
+        }
       ),
       unmanagedSourceDirectories.in(Compile) :=
         Vector(scalaSource.in(Compile).value),

@@ -17,8 +17,26 @@
 package com.advancedtelematic.circe.config
 
 import com.typesafe.config.impl.ConfigDecoders
+import io.circe.{ Decoder, HCursor }
 
 /**
   * Created by vladimir on 23/11/16.
   */
-object Decoders extends ConfigDecoders
+object Decoders extends ConfigDecoders {
+
+  implicit val BooleanDecoder: Decoder[Boolean] = Decoder.instance { (c: HCursor) =>
+    import cats.syntax.either._
+    c.as[Boolean](Decoder.decodeBoolean) match {
+      case x @ Right(_) => x
+      case x @ Left(_) =>
+        c.as[String]
+          .flatMap {
+            case "true"  => Right(true)
+            case "false" => Right(false)
+            case _       => x
+          }
+          .left
+          .flatMap(_ => x)
+    }
+  }
+}
