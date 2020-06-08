@@ -43,7 +43,7 @@ class ConfigParser extends Parser {
   def decodeConfigAccumulating[A](config: Config)(implicit decoder: Decoder[A]): ValidatedNel[io.circe.Error, A] =
     parseConfig(config) match {
       case Right(json) =>
-        decoder.accumulating(json.hcursor).leftMap {
+        decoder.decodeAccumulating(json.hcursor).leftMap {
           case NonEmptyList(h, t) => NonEmptyList(h, t)
         }
       case Left(error) => Validated.invalidNel(error)
